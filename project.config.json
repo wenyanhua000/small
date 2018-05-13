@@ -1,0 +1,15 @@
+{
+	"description": "wepshop666777",
+	"setting": {
+		"urlCheck": true,
+		"es6": false,
+		"postcss": false,
+		"minified": false,
+		"newFeature": true
+	},
+	"compileType": "miniprogram",
+	"appid": "wx5c9ec89d76e12535",
+	"projectname": "wepyshop",
+	"miniprogramRoot": "./dist",
+	"condition": {}
+}

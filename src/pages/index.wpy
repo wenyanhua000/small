@@ -1,0 +1,96 @@
+<style lang="less">
+    /* pages/item/item.wxss */
+  .main{
+    background: #e5e5e5;
+    height: 1334rpx;
+  }
+  .head_search{
+    /* display: flex;
+    flex-direction: column;
+    align-items: center; */
+    background: #ee0000;
+    padding: 10rpx 15rpx;
+    text-align: center;
+  }
+  .head_search input{
+    width: 100%;
+    background: #ffffff;
+    border-radius: 5rpx;
+  }
+  .slideshow image{
+    width: 100%;
+    height: 340rpx;
+    vertical-align:middle;
+  }
+  .navigations{
+    display: flex;
+    background: #ffffff;
+    justify-content: space-around;
+    padding: 20rpx 0;
+    margin-bottom: 20rpx;
+  }
+  .navigations image{
+    width: 128rpx;
+    height: 140rpx;
+  }
+  .girl_clothes .girl_title image{
+    width:100%;
+    height: 59rpx;
+  }
+  .girl_clothes .girl_con{
+    background: #fff;
+    padding:20rpx;
+  }
+</style>
+<template>
+  <view class="container">
+    <!--pages/item/item.wxml-->
+    <view class='main'>
+    <!-- 搜索框 -->
+      <view class='head_search'>
+        <input type='text' placeholder='搜索框'></input>
+      </view>
+      <!-- 轮播图 -->
+      <view class="slideshow">
+        <image src="../images/banner1.png"></image>
+      </view>
+      <!-- 导航 -->
+      <view class='navigations'>
+        <navigator url=''>
+          <image src='../images/icon_index_nav_1@2x.png'></image>
+        </navigator>
+        <navigator url=''>
+          <image src='../images/icon_index_nav_2@2x.png'></image>
+        </navigator>
+        <navigator url=''>
+          <image src='../images/icon_index_nav_3@2x.png'></image>
+        </navigator>
+        <navigator url=''>
+          <image src='../images/icon_index_nav_4@2x.png'></image>
+        </navigator>
+      </view>
+      <!-- 时尚女装 -->
+      <view class='girl_clothes'>
+        <view class="girl_title">
+          <image src='../images/pic_floor01_title@2x.png'></image>
+        </view>
+        <view class="girl_con">
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '首页',
+      navigationBarBackgroundColor: '#c00'
+    }
+    onLoad() {
+      console.log('onLoad')
+    }
+  }
+</script>
