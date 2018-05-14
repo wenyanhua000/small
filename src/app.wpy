@@ -1,4 +1,13 @@
 <style lang="less">
+  pages{
+    background:#f4f4f4;
+    color:#333;
+    font-size: 24rpx;
+  }
+
+  image{
+    vertical-align: top;
+  }
 </style>
 
 <script>
@@ -13,6 +22,7 @@ export default class extends wepy.app {
       'pages/me'
     ],
     window: {
+      enablePullDownRefresh: true,
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: '优购',

@@ -11,7 +11,7 @@
 
   export default class Category extends wepy.page {
     config = {
-      navigationBarTitleText: '首页',
+      navigationBarTitleText: '分类',
       navigationBarBackgroundColor: '#f0f'
     }
     onLoad() {

@@ -11,7 +11,7 @@
 
   export default class Me extends wepy.page {
     config = {
-      navigationBarTitleText: '首页',
+      navigationBarTitleText: '我的',
       navigationBarBackgroundColor: '#f0f'
     }
     onLoad() {
