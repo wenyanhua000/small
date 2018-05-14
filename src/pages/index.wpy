@@ -18,9 +18,12 @@
     border-radius: 5rpx;
   }
   // 轮播图
-  swiper image{
-    width: 750rpx;
+  swiper{
     height: 340rpx;
+    image{
+      width: 750rpx;
+      height: 340rpx;
+    }
   }
 
   .navigations{
@@ -81,9 +84,14 @@
       </view>
       <!-- 轮播图 -->
       <swiper circular autoplay indicator-dots="true" indicator-color='rgba(0, 0, 0, .3)' indicator-active-color='#fff'>
-          <swiper-item wx:for="{{imgUrls}}">
-            <image src="{{item}}"></image>
+        <block wx:for='{{swiperArr}}' wx:key='index'>
+          <swiper-item>
+            <navigator url='{{item.navigator_url}}'>
+              <image src="{{item.image_src}}"></image>
+            </navigator>
           </swiper-item>
+        </block>
+
       </swiper>
       <!-- 导航 -->
       <view class='navigations'>
@@ -127,10 +135,8 @@
               <image src='../images/pic_floor01_5@2x.png' class="floor_con_right_img"></image>
             </navigator>
           </view>
-
         </view>
       </view>
-
     </view>
   </view>
 </template>
@@ -139,7 +145,7 @@
   import wepy from 'wepy'
   export default class Index extends wepy.page {
     // data: {
-    //   imgUrls: [
+    //   swipeArr: [
     //     '../images/banner1.png',
     //     '../images/banner2.png',
     //     '../images/banner3.png'
@@ -150,10 +156,7 @@
     //   duration: 1000
     // }
     data = {
-      imgUrls: [
-        '../images/banner1.png',
-        '../images/banner2.png',
-        '../images/banner3.png'
+      swiperArr: [
       ]
     }
     config = {
@@ -162,6 +165,17 @@
     }
     onLoad() {
       console.log('onLoad')
+      wepy.request({
+        url: 'https://itjustfun.cn/api/public/v1/home/swiperdata', // 开发者服务器接口地址",
+        method: 'GET',
+        dataType: 'json', // 如果设为json，会尝试对返回的数据做一次 JSON.parse
+        success: res => {
+          console.log(res)
+          this.swiperArr = res.data.data
+          this.$apply()
+        },
+        fail: () => {}
+      })
     }
     changeIndicatorDots(e) {
       this.setData({
