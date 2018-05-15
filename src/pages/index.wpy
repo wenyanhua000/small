@@ -96,82 +96,56 @@
             </navigator>
           </swiper-item>
         </block>
-
       </swiper>
       <!-- 导航 -->
-      <view class='navigations'>
-        <block wx:for='{{navArr}}' wx:key='index'>
-          <navigator url='{{item.navigator_url}}' open-type='{{item.open_type}}'>
-            <image src='{{item.image_src}}'></image>
-          </navigator>
-        </block>
-      </view>
-      <!-- 楼层1 -->
-      <view class='floor' wx:for='{{firstArr}}' wx:key='index'>
-        <view class="floor_head">
-          <image src='{{item.floor_title.image_src}}'></image>
-        </view>
-        <view class="floor_con">
-          <!-- 左边 -->
-          <view class="floor_con_left">
-            <navigator url='{{}}' wx:for='{{firstArr.product_list}}' wx:for-item="second" wx:key='secondindex'>
-              <image src='{{}}'  class="floor_con_left_img" style='width:{{}}rpx;'></image>
+        <view class='navigations'>
+          <block wx:for='{{navArr}}' wx:key='index'>
+            <navigator url='{{item.navigator_url}}' open-type='{{item.open_type}}'>
+              <image src='{{item.image_src}}'></image>
             </navigator>
+          </block>
+        </view>
+
+      <!-- 楼层1 -->
+      <block  wx:for='{{firstArr}}' wx:key='index'>
+        <view class='floor'>
+          <view class="floor_head">
+            <image src='{{item.floor_title.image_src}}'></image>
+          </view>
+          <view class="floor_con">
+          <!-- 左边 -->
+            <view class="floor_con_left">
+              <navigator url=''>
+                <image src='../images/pic_floor01_1@2x.png'  class="floor_con_left_img" style='width:223rpx;'></image>
+              </navigator>
+            </view>
+            <!-- 右边 -->
+            <view class="floor_con_right">
+              <block wx:for='{{item.product_list}}' wx:key='index' wx:if="{{index > 0}}">
+                <navigator url='{{item.navigator_url}}'>
+                  <image src='{{item.image_src}}' class="floor_con_right_img" style='width:{{item.image_width}}rpx;'></image>
+                </navigator>
+              </block>
+            </view>
           </view>
         </view>
-      </view>
+      </block>
+        <!-- 广告 -->
       <view class='cen-pic'>
         <navigator url=''>
           <image src='../images/pic_banner_small.png'></image>
         </navigator>
       </view>
       <!-- 楼层2 -->
-      <view class='floor'>
-        <view class="floor_head">
-          <image src='../images/pic_floor02_title@2x.png'></image>
-        </view>
-        <view class="floor_con">
-          <!-- 左边 -->
-          <view class="floor_con_left">
-            <navigator url=''>
-              <image src='../images/pic_floor02_1@2x.png' class="floor_con_left_img"></image>
-            </navigator>
-          </view>
-          <!-- 右边 -->
-          <view class="floor_con_right">
-            <navigator url=''>
-              <image src='../images/pic_floor02_2@2x.png' class="floor_con_right_img" style='width:273rpx;'></image>
-            </navigator>
-            <navigator url=''>
-              <image src='../images/pic_floor02_3@2x.png' class="floor_con_right_img"></image>
-            </navigator>
-            <navigator url=''>
-              <image src='../images/pic_floor02_4@2x.png' class="floor_con_right_img"></image>
-            </navigator>
-            <navigator url=''>
-              <image src='../images/pic_floor02_5@2x.png' class="floor_con_right_img" style='width:273rpx;'></image>
-            </navigator>
-          </view>
-        </view>
-      </view>
     </view>
   </view>
+
 </template>
 
 <script>
   import wepy from 'wepy'
+  import api from '../api/api'
   export default class Index extends wepy.page {
-    // data: {
-    //   swipeArr: [
-    //     '../images/banner1.png',
-    //     '../images/banner2.png',
-    //     '../images/banner3.png'
-    //   ],
-    //   indicatorDots: false,
-    //   autoplay: false,
-    //   interval: 5000,
-    //   duration: 1000
-    // }
     data = {
       swiperArr: [],
       navArr: [],
@@ -183,27 +157,14 @@
     }
     onLoad() {
       console.log('onLoad')
-      wepy.request({
-        url: 'https://itjustfun.cn/api/public/v1/home/swiperdata', // 开发者服务器接口地址",
-        method: 'GET',
-        dataType: 'json', // 如果设为json，会尝试对返回的数据做一次 JSON.parse
-        fail: () => {}
-      })
-      .then(res => {
-        console.log(res)
-        this.swiperArr = res.data.data
+
+      api.getHomeSwiper().then(res => {
+        this.swiperArr = res.data
         this.$apply()
       })
       // 分类请求
-      wepy.request({
-        url: 'https://itjustfun.cn/api/public/v1/home/catitems', // 开发者服务器接口地址",
-        method: 'GET',
-        dataType: 'json', // 如果设为json，会尝试对返回的数据做一次 JSON.parse
-        fail: () => {}
-      })
-      .then(res => {
-        console.log(res)
-        this.navArr = res.data.data
+      api.getHomeNav().then(res => {
+        this.navArr = res.data
         this.$apply()
       })
       // 首层请求
