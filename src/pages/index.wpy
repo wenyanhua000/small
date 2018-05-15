@@ -107,9 +107,9 @@
         </block>
       </view>
       <!-- 楼层1 -->
-      <view class='floor' wx:for='{{firstArr}}'>
+      <view class='floor' wx:for='{{firstArr}}' wx:key='index'>
         <view class="floor_head">
-          <image src='{{item.floor_title.image_src}}' wx:key='index'></image>
+          <image src='{{item.floor_title.image_src}}'></image>
         </view>
         <view class="floor_con">
           <!-- 左边 -->
@@ -187,37 +187,37 @@
         url: 'https://itjustfun.cn/api/public/v1/home/swiperdata', // 开发者服务器接口地址",
         method: 'GET',
         dataType: 'json', // 如果设为json，会尝试对返回的数据做一次 JSON.parse
-        success: res => {
-          console.log(res)
-          this.swiperArr = res.data.data
-          this.$apply()
-        },
         fail: () => {}
+      })
+      .then(res => {
+        console.log(res)
+        this.swiperArr = res.data.data
+        this.$apply()
       })
       // 分类请求
       wepy.request({
         url: 'https://itjustfun.cn/api/public/v1/home/catitems', // 开发者服务器接口地址",
         method: 'GET',
         dataType: 'json', // 如果设为json，会尝试对返回的数据做一次 JSON.parse
-        success: res => {
-          console.log(res)
-          this.navArr = res.data.data
-          this.$apply()
-        },
         fail: () => {}
+      })
+      .then(res => {
+        console.log(res)
+        this.navArr = res.data.data
+        this.$apply()
       })
       // 首层请求
       wepy.request({
         url: 'https://itjustfun.cn/api/public/v1/home/floordata', // 开发者服务器接口地址",
         method: 'GET',
         dataType: 'json', // 如果设为json，会尝试对返回的数据做一次 JSON.parse
-        success: res => {
-          console.log(res)
-          this.firstArr = res.data.data
-          this.$apply()
-        },
         fail: () => {},
         complete: () => {}
+      })
+      .then(res => {
+        console.log(res)
+        this.firstArr = res.data.data
+        this.$apply()
       })
     }
     changeIndicatorDots(e) {
