@@ -1,5 +1,5 @@
 <style lang="less">
-  pages{
+  page{
     background:#f4f4f4;
     color:#333;
     font-size: 24rpx;
@@ -19,7 +19,10 @@ export default class extends wepy.app {
       'pages/index',
       'pages/category',
       'pages/cart',
-      'pages/me'
+      'pages/me',
+      'pages/goods_detail',
+      'pages/goods_list',
+      'pages/orders'
     ],
     window: {
       enablePullDownRefresh: true,

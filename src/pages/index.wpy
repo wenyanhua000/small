@@ -1,9 +1,5 @@
 <style lang="less">
     /* pages/item/item.wxss */
-  .main{
-    background: #e5e5e5;
-    height: 1334rpx;
-  }
   .head_search{
     /* display: flex;
     flex-direction: column;
@@ -46,8 +42,17 @@
     height: 340rpx;
   }
 
+  .cen-pic{
+    margin-bottom: 30rpx;
+    image{
+      width: 750rpx;
+      height: 180rpx;
+    }
+  }
+
   // 楼层
   .floor{
+    margin-bottom: 30rpx;
     &_head{
       image{
         width:100%;
@@ -56,18 +61,18 @@
     }
     &_con{
       background: #fff;
-      padding:20rpx;
+      padding:20rpx 20rpx 10rpx;
       display: flex;
 
       &_left,&_left_img{
-        width: 232rpx;
         height: 386rpx;
+        margin-bottom: 10rpx;
       }
       &_right{
           display: flex;
           flex-wrap: wrap;
           &_img{
-            width: 223rpx;
+            margin-left: 10rpx;
             height: 188rpx;
         }
       }
@@ -95,44 +100,56 @@
       </swiper>
       <!-- 导航 -->
       <view class='navigations'>
+        <block wx:for='{{navArr}}' wx:key='index'>
+          <navigator url='{{item.navigator_url}}' open-type='{{item.open_type}}'>
+            <image src='{{item.image_src}}'></image>
+          </navigator>
+        </block>
+      </view>
+      <!-- 楼层1 -->
+      <view class='floor' wx:for='{{firstArr}}'>
+        <view class="floor_head">
+          <image src='{{item.floor_title.image_src}}' wx:key='index'></image>
+        </view>
+        <view class="floor_con">
+          <!-- 左边 -->
+          <view class="floor_con_left">
+            <navigator url='{{}}' wx:for='{{firstArr.product_list}}' wx:for-item="second" wx:key='secondindex'>
+              <image src='{{}}'  class="floor_con_left_img" style='width:{{}}rpx;'></image>
+            </navigator>
+          </view>
+        </view>
+      </view>
+      <view class='cen-pic'>
         <navigator url=''>
-          <image src='../images/icon_index_nav_1@2x.png'></image>
-        </navigator>
-        <navigator url=''>
-          <image src='../images/icon_index_nav_2@2x.png'></image>
-        </navigator>
-        <navigator url=''>
-          <image src='../images/icon_index_nav_3@2x.png'></image>
-        </navigator>
-        <navigator url=''>
-          <image src='../images/icon_index_nav_4@2x.png'></image>
+          <image src='../images/pic_banner_small.png'></image>
         </navigator>
       </view>
-      <!-- 时尚女装 -->
+      <!-- 楼层2 -->
       <view class='floor'>
         <view class="floor_head">
-          <image src='../images/pic_floor01_title@2x.png'></image>
+          <image src='../images/pic_floor02_title@2x.png'></image>
         </view>
-        <!-- 楼层1 -->
         <view class="floor_con">
           <!-- 左边 -->
           <view class="floor_con_left">
             <navigator url=''>
-              <image src='../images/pic_floor01_1@2x.png' class="floor_con_left_img"></image>
+              <image src='../images/pic_floor02_1@2x.png' class="floor_con_left_img"></image>
             </navigator>
           </view>
+          <!-- 右边 -->
           <view class="floor_con_right">
             <navigator url=''>
-              <image src='../images/pic_floor01_2@2x.png' class="floor_con_right_img"></image>
+              <image src='../images/pic_floor02_2@2x.png' class="floor_con_right_img" style='width:273rpx;'></image>
             </navigator>
             <navigator url=''>
-              <image src='../images/pic_floor01_3@2x.png' class="floor_con_right_img"></image>
+              <image src='../images/pic_floor02_3@2x.png' class="floor_con_right_img"></image>
             </navigator>
             <navigator url=''>
-              <image src='../images/pic_floor01_4@2x.png' class="floor_con_right_img"></image>
+              <image src='../images/pic_floor02_4@2x.png' class="floor_con_right_img"></image>
             </navigator>
             <navigator url=''>
-              <image src='../images/pic_floor01_5@2x.png' class="floor_con_right_img"></image>
+              <image src='../images/pic_floor02_5@2x.png' class="floor_con_right_img" style='width:273rpx;'></image>
             </navigator>
           </view>
         </view>
@@ -156,8 +173,9 @@
     //   duration: 1000
     // }
     data = {
-      swiperArr: [
-      ]
+      swiperArr: [],
+      navArr: [],
+      firstArr: []
     }
     config = {
       navigationBarTitleText: '首页',
@@ -175,6 +193,31 @@
           this.$apply()
         },
         fail: () => {}
+      })
+      // 分类请求
+      wepy.request({
+        url: 'https://itjustfun.cn/api/public/v1/home/catitems', // 开发者服务器接口地址",
+        method: 'GET',
+        dataType: 'json', // 如果设为json，会尝试对返回的数据做一次 JSON.parse
+        success: res => {
+          console.log(res)
+          this.navArr = res.data.data
+          this.$apply()
+        },
+        fail: () => {}
+      })
+      // 首层请求
+      wepy.request({
+        url: 'https://itjustfun.cn/api/public/v1/home/floordata', // 开发者服务器接口地址",
+        method: 'GET',
+        dataType: 'json', // 如果设为json，会尝试对返回的数据做一次 JSON.parse
+        success: res => {
+          console.log(res)
+          this.firstArr = res.data.data
+          this.$apply()
+        },
+        fail: () => {},
+        complete: () => {}
       })
     }
     changeIndicatorDots(e) {
