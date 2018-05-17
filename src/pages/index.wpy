@@ -1,18 +1,5 @@
 <style lang="less">
     /* pages/item/item.wxss */
-  .head_search{
-    /* display: flex;
-    flex-direction: column;
-    align-items: center; */
-    background: #ee0000;
-    padding: 10rpx 15rpx;
-    text-align: center;
-  }
-  .head_search input{
-    width: 100%;
-    background: #ffffff;
-    border-radius: 5rpx;
-  }
   // 轮播图
   swiper{
     height: 340rpx;
@@ -83,10 +70,7 @@
   <view class="container">
     <!--pages/item/item.wxml-->
     <view class='main'>
-    <!-- 搜索框 -->
-      <view class='head_search'>
-        <input type='text' placeholder='搜索框'></input>
-      </view>
+      <SearchBar></SearchBar>
       <!-- 轮播图 -->
       <swiper circular autoplay indicator-dots="true" indicator-color='rgba(0, 0, 0, .3)' indicator-active-color='#fff'>
         <block wx:for='{{swiperArr}}' wx:key='index'>
@@ -115,9 +99,11 @@
           <view class="floor_con">
           <!-- 左边 -->
             <view class="floor_con_left">
-              <navigator url=''>
-                <image src='../images/pic_floor01_1@2x.png'  class="floor_con_left_img" style='width:223rpx;'></image>
+              <block wx:for = '{{item.product_list}}' wx:key='index' wx:if='{{index === 0}}'>
+              <navigator url='{{item.navigator_url}}'>
+                <image src='{{item.image_src}}' class="floor_con_left_img" style='width:{{item.image_width}}rpx;'></image>
               </navigator>
+              </block>
             </view>
             <!-- 右边 -->
             <view class="floor_con_right">
@@ -139,12 +125,17 @@
       <!-- 楼层2 -->
     </view>
   </view>
+  <view class='end-tips'>
+    <view class="iconfont icon-xiaolian"></view>
+    <view>我是有底线的</view>
+  </view>
 
 </template>
 
 <script>
   import wepy from 'wepy'
   import api from '../api/api'
+  import SearchBar from '../components/search_bar'
   export default class Index extends wepy.page {
     data = {
       swiperArr: [],
@@ -154,6 +145,9 @@
     config = {
       navigationBarTitleText: '首页',
       navigationBarBackgroundColor: '#c00'
+    }
+    components = {
+      SearchBar
     }
     onLoad() {
       console.log('onLoad')

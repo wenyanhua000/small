@@ -1,0 +1,28 @@
+<style lang="less">
+  .search{
+    padding:10rpx;
+    background: #cc0000;
+
+    .searchbar{
+      height: 50rpx;
+      background: #fff;
+      text-align: center;
+      line-height: 50rpx;
+      font-size:20rpx;
+    }
+  }
+</style>
+<template>
+  <view class='search'>
+    <navigator url='' class='searchbar'>
+      <view class='iconfont icon-search1'></view>
+        搜索框
+    </navigator>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class SearchBar extends wepy.component {
+
+  }
+</script>
