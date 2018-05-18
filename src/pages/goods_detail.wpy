@@ -1,21 +1,365 @@
 <style lang="less">
+  .swiper,
+  .swiper-img {
+    width: 750rpx;
+    height: 720rpx;
+  }
+
+  .product-info {
+    height: 300rpx;
+    background-color: #fff;
+    padding: 0 16rpx;
+  }
+  .product-head {
+    height: 38rpx;
+    padding: 40rpx 0;
+    .price {
+      color: #ff2d4a;
+      font-size: 50rpx;
+      margin-left: -10rpx;
+    }
+    .old-price {
+      color: #999;
+      font-size: 26rpx;
+    }
+  }
+  .product-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .product-name {
+      font-size: 34rpx;
+      width: 546rpx;
+      height: 88rpx;
+      line-height: 1.3;
+      /* 多行文字隐藏省略号 */
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+    .product-like {
+      width: 50rpx;
+      height: 78rpx;
+      border-left: 1rpx solid #ddd;
+      padding-left: 46rpx;
+      margin-right: 30rpx;
+      color: #999;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .icon-shoucang {
+      width: 32rpx;
+      height: 32rpx;
+      margin-top: 10rpx;
+    }
+  }
+
+  .product-foot {
+    font-size: 30rpx;
+    color: #999;
+    margin-top: 34rpx;
+  }
+
+  .part {
+    background-color: #fff;
+    margin: 20rpx 0;
+    font-size: 32rpx;
+    color: #999;
+
+    &-item {
+      display: flex;
+      padding: 28rpx 16rpx;
+      position: relative;
+      align-items: center;
+    }
+
+    &-line:after {
+      content: '';
+      height: 1rpx;
+      width: 734rpx;
+      background-color: #ddd;
+      display: block;
+      position: absolute;
+      bottom: -1rpx;
+    }
+    .note {
+      color: #333;
+      margin-right: 40rpx;
+    }
+    .description {
+      width: 490rpx;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      word-wrap: normal;
+    }
+    .icon-jiantouyou {
+      width: 25rpx;
+      height: 25rpx;
+      color: #ccc;
+      position: absolute;
+      right: 46rpx;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .tabs-head {
+    height: 100rpx;
+    background-color: #fff;
+    display: flex;
+  }
+  .tabs-head .tabs-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30rpx;
+    position: relative;
+  }
+  .tabs-head .active {
+    color: #ff2d4a;
+    font-weight: 400;
+  }
+  .tabs-head .active:after {
+    content: '';
+    height: 12rpx;
+    width: 100%;
+    background-color: #ff2d4a;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+  }
+  .tabs-body {
+    padding: 16rpx;
+    padding-bottom: 250rpx;
+  }
+  .param-item {
+    padding: 30rpx 0;
+    font-size: 28rpx;
+    display: flex;
+    align-items: center;
+  }
+  .param-item .note {
+    width: 150rpx;
+    color: #999;
+  }
+  .param-item .description {
+    width: 568rpx;
+    line-height: 1.3;
+  }
+
+  .fixed-bar {
+    width: 750rpx;
+    height: 98rpx;
+    background-color: #fff;
+    position: fixed;
+    bottom: 0;
+    z-index: 11;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .fixed-bar .item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .fixed-bar .item .iconfont {
+    width: 40rpx;
+    height: 40rpx;
+    font-size: 40rpx;
+    color: #999;
+  }
+
+  .fixed-bar .item .item-note {
+    margin-top: 10rpx;
+    font-size: 22rpx;
+    color: #666;
+  }
+  .fixed-bar .btn-group {
+    display: flex;
+  }
+  .fixed-bar .btn {
+    width: 213rpx;
+    height: 98rpx;
+    line-height: 98rpx;
+    text-align: center;
+    font-size: 30rpx;
+    color: #fff;
+  }
+  .yellow-button {
+    background-color: #ffb400;
+  }
+  .red-button {
+    background-color: #ff2d4a;
+  }
+
+  .wxParse-content {
+    padding: 55rpx;
+
+    .wxParse-a {
+      display: none;
+    }
+  }
+  .fix-tabs{
+    height: 60rpx;
+    display: flex;
+    justify-content: center;
+
+  }
 </style>
 <template>
-  <view class="container">
-    Hello world
-  </view>
+  <!-- 1.0 这里写结构 -->
+  <!-- 商品详情页 -->
+    <swiper class="swiper"
+      indicator-dots="{{ true }}"
+      indicator-color="rgba(255,255,255,.5)"
+      indicator-active-color="#ffffff"
+      interval="2500"
+      autoplay="true"
+      circular="true">
+      <block wx:for="{{ goodsDetail.pics }}" wx:key="index">
+        <!--
+          5.0.1 图片预览事件添加，并传参，
+            注意传参时候的 {{ }}
+        -->
+        <swiper-item @tap="previewImageHandle({{ item.pics_big }})">
+          <image class="swiper-img" src="{{ item.pics_big }}" />
+        </swiper-item>
+      </block>
+    </swiper>
+    <view class="product-info">
+        <view class="product-head">
+            <text class="price">￥{{ goodsDetail.goods_price }}</text>
+        </view>
+        <view class="product-body">
+            <view class="product-name">
+                {{ goodsDetail.goods_name }}
+            </view>
+            <view class="product-like">
+                <view class="iconfont icon-shoucang"></view>
+                <view>收藏</view>
+            </view>
+        </view>
+        <view class="product-foot">
+            快递：<text>免运费</text>
+        </view>
+    </view>
+    <view class="part">
+        <view class="part-item part-line">
+            <text class="note">促销</text><text class="description color-main">满300减30元</text>
+        </view>
+        <view class="part-item">
+            <text class="note">已选</text><text class="description">黑色/S/1件</text>
+        </view>
+    </view>
+    <view class="part">
+        <view class="part-item">
+            <text class="note">送至</text><text class="description">广东省广州市天河区珠吉路58号津安创意园传智播客</text>
+            <view class="iconfont icon-jiantouyou"></view>
+        </view>
+    </view>
+
+    <view class="tabs">
+        <view class="tabs-head">
+            <view class="tabs-item {{ tabindex == 0 ?'active': '' }}" @tap='tapcon({{ 0 }})'>
+                图文详情
+            </view>
+            <view class="tabs-item {{ tabindex == 1 ?'active': '' }}" @tap='tapcon({{ 1 }})'>
+                规格参数
+            </view>
+        </view>
+        <view class="tabs-body">
+            <view class="tabs-content" hidden='{{ tabindex != 0 }}'>
+                商品图文展示
+                <!-- 步骤4. 引入 WXML 模板 -->
+                <import src="plugins/wxParse/wxParse.wxml"/>
+                <!-- 这里data中article为bindName -->
+                <template is="wxParse" data="{{wxParseData:detailInfo.nodes}}"></template>
+            </view>
+            <view class="tabs-content"  hidden='{{ tabindex != 1 }}'>
+                <view class="param-item">
+                    <text class="note">商品名称</text>
+                    <text class="description">复古撞色运动外套男女情侣校服立领夹文字自动换行</text>
+                </view>
+                <view class="param-item">
+                    <text class="note">品牌</text>
+                    <text class="description">初语</text>
+                </view>
+                <view class="param-item">
+                    <text class="note">编号</text>
+                    <text class="description">BR1005</text>
+                </view>
+                <view class="param-item">
+                    <text class="note">颜色</text>
+                    <text class="description">黑色 / 白色 / 灰色</text>
+                </view>
+            </view>
+        </view>
+        <view class="fix-tabs">
+          <view class="left_fix">
+            <navigator class=''>联系客服</navigator>
+            <navigator class=''>购物车</navigator>
+          </view>
+          <view class="right_fix">
+            <navigator class=''>加入购物车</navigator>
+            <navigator class=''>立即购买</navigator>
+          </view>
+        </view>
+    </view>
 </template>
 
 <script>
   import wepy from 'wepy'
+  import api from '../api/api'
+  import WxParse from '../plugins/wxParse/wxParse'
 
   export default class GoodsDetail extends wepy.page {
     config = {
       navigationBarTitleText: '商品详情',
       navigationBarBackgroundColor: '#f0f'
     }
+    data = {
+      goodsDetail: null,
+      tabindex: ''
+    }
     onLoad() {
       console.log('onLoad')
+            // 商品详情
+      api.getGoodsDetali({
+        data: {
+          goods_id: 5578
+        }
+      }).then(res => {
+        console.log(res)
+        this.goodsDetail = res.data
+        this.$apply()
+      })
+
+      var parseData = '<div>我是HTML代码</div>'
+      // WxParse.wxParse(bindName, type, data, target, imagePadding)
+      /* 1.bindName绑定的数据名(必填)
+      2.type可以为html或者md(必填)
+      3.data为传入的具体数据(必填)
+      4.target为Page对象,一般为this(必填)
+      5.imagePadding为当图片自适应是左右的单一padding(默认为0,可选) */
+      var that = this
+      WxParse.wxParse('detailInfo', 'html', parseData, that, 0)
     }
-  }
+    methods = {
+      tapcon (index) {
+        console.log(index)
+        this.tabindex = index
+      }
+    }
+}
 </script>

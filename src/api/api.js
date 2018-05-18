@@ -16,10 +16,15 @@ const getHomeNav = params => {
   return wxRequest('home/catitems', params).then(res => res.data)
 }
 
+const getGoodsDetali = params => {
+  return wxRequest('goods/detail', params).then(res => res.data)
+}
+
 // 记得把封装的API方法导出，我们这里是统一导出
 export default {
   getHomeSwiper,
-  getHomeNav
+  getHomeNav,
+  getGoodsDetali
 }
 
 // wepy.request({

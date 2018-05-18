@@ -1,5 +1,6 @@
 <style lang="less">
 @import './style/iconfont.wxss';
+@import "./plugins/wxParse/wxParse.wxss";
   page{
     background:#f4f4f4;
     color:#333;
@@ -22,11 +23,11 @@ export default class extends wepy.app {
   }
   config = {
     pages: [
+      'pages/goods_detail',
       'pages/index',
       'pages/category',
       'pages/cart',
       'pages/me',
-      'pages/goods_detail',
       'pages/goods_list',
       'pages/orders'
     ],
